@@ -39,10 +39,10 @@ export interface SearchState {
   fileResults: File[];
   textResults: TextResult[];
   setSearchQuery: (query: string) => void;
-  setActiveFilters: (filters: FilterType[]) => void;
+  setActiveFilters: React.Dispatch<React.SetStateAction<FilterType[]>>;
   isLoading: boolean;
   selectedItemIndex: number;
-  setSelectedItemIndex: (index: number) => void;
+  setSelectedItemIndex: React.Dispatch<React.SetStateAction<number>>;
   totalResultsCount: number;
   selectNextItem: () => void;
   selectPrevItem: () => void;
@@ -51,5 +51,6 @@ export interface SearchState {
   clearSearchHistory: () => void;
   removeFromHistory: (query: string) => void;
   showHistory: boolean;
-  setShowHistory: (show: boolean) => void;
+  setShowHistory: (value: React.MouseEvent | boolean) => void;
+  submitSearch: () => void;
 } 
