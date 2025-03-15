@@ -27,6 +27,11 @@ export interface TextResult {
 
 export type FilterType = "users" | "files" | "text";
 
+export interface SearchHistoryItem {
+  query: string;
+  timestamp: number;
+}
+
 export interface SearchState {
   searchQuery: string;
   activeFilters: FilterType[];
@@ -42,4 +47,9 @@ export interface SearchState {
   selectNextItem: () => void;
   selectPrevItem: () => void;
   hasSelectedItem: boolean;
+  searchHistory: SearchHistoryItem[];
+  clearSearchHistory: () => void;
+  removeFromHistory: (query: string) => void;
+  showHistory: boolean;
+  setShowHistory: (show: boolean) => void;
 } 
