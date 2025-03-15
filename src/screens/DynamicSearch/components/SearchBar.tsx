@@ -17,7 +17,8 @@ export const SearchBar: React.FC = () => {
     showHistory,
     setShowHistory,
     removeFromHistory,
-    clearSearchHistory
+    clearSearchHistory,
+    submitSearch
   } = useSearch();
 
   const searchContainerRef = useRef<HTMLDivElement>(null);
@@ -80,6 +81,14 @@ export const SearchBar: React.FC = () => {
     setShowHistory(true);
   }, [setShowHistory]);
 
+  // Handle key press in search input
+  const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
+    // When Enter key is pressed, add the search to history
+    if (e.key === 'Enter' && searchQuery.trim() !== '') {
+      submitSearch();
+    }
+  }, [searchQuery, submitSearch]);
+
   return (
     <div 
       ref={searchContainerRef}
@@ -88,6 +97,7 @@ export const SearchBar: React.FC = () => {
       <SearchInput
         value={searchQuery}
         onChange={handleChange}
+        onKeyDown={handleKeyDown}
         placeholder="Search..."
         aria-label="Search"
         aria-autocomplete="list"

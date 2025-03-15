@@ -34,6 +34,7 @@ const SearchContext = createContext<SearchState>({
   removeFromHistory: () => {},
   showHistory: false,
   setShowHistory: () => {},
+  submitSearch: () => {},
 });
 
 interface SearchProviderProps {
@@ -56,14 +57,8 @@ export const SearchProvider: React.FC<SearchProviderProps> = ({ children }) => {
   // Apply debouncing to search query
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
 
-  // Add search to history when a search is performed
-  useEffect(() => {
-    if (debouncedSearchQuery && debouncedSearchQuery.trim() !== '') {
-      setSearchHistory(prevHistory => 
-        addToSearchHistory(debouncedSearchQuery, prevHistory)
-      );
-    }
-  }, [debouncedSearchQuery]);
+  // Remove the automatic history addition on debouncedSearchQuery change
+  // Instead, we'll expose a submitSearch function for explicit submission
 
   // Simulate loading state when search query changes
   useEffect(() => {
@@ -95,6 +90,15 @@ export const SearchProvider: React.FC<SearchProviderProps> = ({ children }) => {
       document.removeEventListener('click', handleClickOutside);
     };
   }, [showHistory]);
+
+  // Function to explicitly submit search and add to history
+  const submitSearch = useCallback(() => {
+    if (searchQuery && searchQuery.trim() !== '') {
+      setSearchHistory(prevHistory => 
+        addToSearchHistory(searchQuery, prevHistory)
+      );
+    }
+  }, [searchQuery]);
 
   // Function to clear all search history
   const clearSearchHistory = useCallback(() => {
@@ -240,6 +244,7 @@ export const SearchProvider: React.FC<SearchProviderProps> = ({ children }) => {
     removeFromHistory,
     showHistory,
     setShowHistory: toggleSearchHistory,
+    submitSearch,
   }), [
     searchQuery, 
     activeFilters, 
@@ -257,7 +262,8 @@ export const SearchProvider: React.FC<SearchProviderProps> = ({ children }) => {
     clearSearchHistory,
     removeFromHistory,
     showHistory,
-    toggleSearchHistory
+    toggleSearchHistory,
+    submitSearch
   ]);
 
   return (
