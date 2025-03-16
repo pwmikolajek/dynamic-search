@@ -2,6 +2,8 @@
 
 A React-based search interface with fuzzy search, search history, and dynamic results display.
 
+![Dynamic Search Social](https://github.com/user-attachments/assets/982e4433-b326-4f8b-8929-99b5a378169e)
+
 ## Features
 
 - Fuzzy search with Fuse.js for typo-tolerant matching
